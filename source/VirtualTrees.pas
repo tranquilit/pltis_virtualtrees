@@ -4798,15 +4798,15 @@ begin
   CF_VTREFERENCE := ClipboardRegisterFormat(CFSTR_VTREFERENCE);
 
   UtilityImages := TBitmap.Create;
-  UtilityImages.LoadFromTyphonResource('VT_UTILITIES');
+  UtilityImages.LoadFromLazarusResource('VT_UTILITIES');
 
   // Specify an useful timer resolution for timeGetTime.
   timeBeginPeriod(MinimumTimerInterval);
 
   // Delphi (at least version 6 and lower) does not provide a standard split cursor.
   // Hence we have to load our own.
-  Screen.Cursors[crHeaderSplit] := LoadCursorFromTyphonResource('VT_HEADERSPLIT');
-  Screen.Cursors[crVertSplit] := LoadCursorFromTyphonResource('VT_VERTSPLIT');
+  Screen.Cursors[crHeaderSplit] := LoadCursorFromLazarusResource('VT_HEADERSPLIT');
+  Screen.Cursors[crVertSplit] := LoadCursorFromLazarusResource('VT_VERTSPLIT');
   // Clipboard format registration.
   // Native clipboard format. Needs a new identifier and has an average priority to allow other formats to take over.
   // This format is supposed to use the IStream storage format but unfortunately this does not work when
@@ -12819,17 +12819,17 @@ procedure TBaseVirtualTree.LoadPanningCursors;
 begin
   with Screen do
   begin
-    Cursors[crVT_MOVEALL]:=LoadCursorFromTyphonResource('VT_MOVEALL');
-    Cursors[crVT_MOVEEW]:=LoadCursorFromTyphonResource('VT_MOVEEW');
-    Cursors[crVT_MOVENS]:=LoadCursorFromTyphonResource('VT_MOVENS');
-    Cursors[crVT_MOVENW]:=LoadCursorFromTyphonResource('VT_MOVENW');
-    Cursors[crVT_MOVESW]:=LoadCursorFromTyphonResource('VT_MOVESW');
-    Cursors[crVT_MOVESE]:=LoadCursorFromTyphonResource('VT_MOVESE');
-    Cursors[crVT_MOVENE]:=LoadCursorFromTyphonResource('VT_MOVENE');
-    Cursors[crVT_MOVEW]:=LoadCursorFromTyphonResource('VT_MOVEW');
-    Cursors[crVT_MOVEE]:=LoadCursorFromTyphonResource('VT_MOVEE');
-    Cursors[crVT_MOVEN]:=LoadCursorFromTyphonResource('VT_MOVEN');
-    Cursors[crVT_MOVES]:=LoadCursorFromTyphonResource('VT_MOVES');
+    Cursors[crVT_MOVEALL]:=LoadCursorFromLazarusResource('VT_MOVEALL');
+    Cursors[crVT_MOVEEW]:=LoadCursorFromLazarusResource('VT_MOVEEW');
+    Cursors[crVT_MOVENS]:=LoadCursorFromLazarusResource('VT_MOVENS');
+    Cursors[crVT_MOVENW]:=LoadCursorFromLazarusResource('VT_MOVENW');
+    Cursors[crVT_MOVESW]:=LoadCursorFromLazarusResource('VT_MOVESW');
+    Cursors[crVT_MOVESE]:=LoadCursorFromLazarusResource('VT_MOVESE');
+    Cursors[crVT_MOVENE]:=LoadCursorFromLazarusResource('VT_MOVENE');
+    Cursors[crVT_MOVEW]:=LoadCursorFromLazarusResource('VT_MOVEW');
+    Cursors[crVT_MOVEE]:=LoadCursorFromLazarusResource('VT_MOVEE');
+    Cursors[crVT_MOVEN]:=LoadCursorFromLazarusResource('VT_MOVEN');
+    Cursors[crVT_MOVES]:=LoadCursorFromLazarusResource('VT_MOVES');
   end;
 end;
 
@@ -13100,7 +13100,7 @@ begin
             LineTo(Width - 2 , Width div 2);
           end
           else
-            FMinusBM.LoadFromTyphonResource('VT_XPBUTTONMINUS');
+            FMinusBM.LoadFromLazarusResource('VT_XPBUTTONMINUS');
           FHotMinusBM.Canvas.Draw(0, 0, FMinusBM);
         end;
       end;
@@ -13139,7 +13139,7 @@ begin
             LineTo(Width div 2, Width - 2);
           end
           else
-            FPlusBM.LoadFromTyphonResource('VT_XPBUTTONPLUS');
+            FPlusBM.LoadFromLazarusResource('VT_XPBUTTONPLUS');
           FHotPlusBM.Canvas.Draw(0, 0, FPlusBM);
         end;
       end;
@@ -14520,7 +14520,7 @@ begin
           // Allowed drop effects are simulated for VCL dd.
           Result := DROPEFFECT_MOVE or DROPEFFECT_COPY;
 
-         //--- ct9999 for CodeTyphon ---------
+         //--- ct9999 for CodeLazarus ---------
           xEffect:=Result;
           DragOver(S, ShiftState, TDragState(ADragMessage), APosition, xEffect);
          //----
@@ -19975,7 +19975,7 @@ begin
   begin
     FCheckImages := TBitmap.Create;
     FCheckImages.TransparentColor := clDefault;
-    FCheckImages.LoadFromTyphonResource(CheckImagesStrings[FCheckImageKind]);
+    FCheckImages.LoadFromLazarusResource(CheckImagesStrings[FCheckImageKind]);
   end;
 end;
 
@@ -22969,7 +22969,7 @@ begin
   else
     ImageName := 'VT_MOVENS_BMP';
 
-  FPanningWindow.Image.LoadFromTyphonResource(ImageName);
+  FPanningWindow.Image.LoadFromLazarusResource(ImageName);
 
   FPanningWindow.Show(CreateClipRegion);
 

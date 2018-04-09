@@ -13,7 +13,7 @@ unit AllVirtualTreeviewRegister;
 interface
 
 uses 
-  Classes, SysUtils, LResources, TyphonPackageIntf,
+  Classes, SysUtils, LResources, LazarusPackageIntf,
   VirtualTrees;
   
 procedure Register;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
-    <Name Value="pl_virtualtrees"/>
+    <Name Value="pltis_virtualtrees"/>
     <Type Value="RunAndDesignTime"/>
     <Author Value="PilotLogic Software House"/>
     <CompilerOptions>
@@ -44,10 +44,10 @@ for CodeTyphon Studio
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="pl_lclextensions"/>
+        <PackageName Value="lclextensions_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="adLCL"/>
+        <PackageName Value="LCL"/>
       </Item2>
     </RequiredPkgs>
     <UsageOptions>
