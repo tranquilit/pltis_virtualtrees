@@ -1,0 +1,9 @@
+=============================================
+  CodeTyphon Studio
+  Typhon IDE
+  Information file
+=============================================
+
+pl_VirtualTrees
+
+Ver 6.4.1 Date 24-01-2018
