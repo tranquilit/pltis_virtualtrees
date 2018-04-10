@@ -2291,6 +2291,7 @@ type
     procedure TileBackground(Source: TBitmap; Target: TCanvas; const Offset: TPoint; R: TRect);
     function  ToggleCallback(Step, StepSize: Integer; Data: Pointer): Boolean;
 
+  protected
     procedure CMColorChange(var Message: TLMessage); message CM_COLORCHANGED;
     procedure CMBiDiModeChanged(var Message: TLMessage); message CM_BIDIMODECHANGED;
     procedure CMDenySubclassing(var Message: TLMessage); message CM_DENYSUBCLASSING;
