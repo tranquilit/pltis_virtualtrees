@@ -7534,7 +7534,7 @@ begin
       begin
         // toggle sort direction
         if Header.SortDirection = sdDescending then
-          Header.SortDirection := sdAscending
+          Header.SortColumn := NoColumn
         else
           Header.SortDirection := sdDescending;
       end;//else
