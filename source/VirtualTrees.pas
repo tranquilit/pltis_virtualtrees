@@ -12470,12 +12470,13 @@ function TBaseVirtualTree.GetVisiblePath(Node: PVirtualNode): Boolean;
 
 begin
   Assert(Assigned(Node) and (Node <> FRoot), 'Invalid parameters.');
-
-  // FRoot is always expanded
-  repeat
-    Node := Node.Parent;
-  until (Node = FRoot) or not (vsExpanded in Node.States) or not (vsVisible in Node.States);
-
+  if Node.Parent <> Nil then
+  begin
+    // FRoot is always expanded
+    repeat
+      Node := Node.Parent;
+    until (Node = FRoot) or not (vsExpanded in Node.States) or not (vsVisible in Node.States);
+  end;
   Result := Node = FRoot;
 end;
 
