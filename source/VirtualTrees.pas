@@ -15182,7 +15182,6 @@ procedure TBaseVirtualTree.WMContextMenu(var Message: TLMContextMenu);
 //lcl: handle mouse up here because MouseUp is not called when popup is show
 var
   HitInfo: THitInfo;
-
 begin
   {$ifdef DEBUG_VTV}Logger.EnterMethod([lcMessages],'WMContextMenu');{$endif}
   DoStateChange([], [tsClearPending, tsEditPending, tsOLEDragPending, tsVCLDragPending]);
@@ -16422,7 +16421,6 @@ var
 
 begin
   {$ifdef DEBUG_VTV}Logger.EnterMethod([lcMessages],'WMRButtonUp');{$endif}
-  DoStateChange([], [tsPopupMenuShown, tsRightButtonDown]);
 
   if FHeader.FStates = [] then
   begin
@@ -16436,6 +16434,8 @@ begin
     end;
 
     inherited WMRButtonUp(Message);
+
+    DoStateChange([], [tsPopupMenuShown, tsRightButtonDown]);
 
     // get information about the hit
     GetHitTestInfoAt(Message.XPos, Message.YPos, True, HitInfo);
@@ -20827,7 +20827,7 @@ begin
 
     // Drag'n drop initiation
     // If we lost focus in the interim the button states would be cleared in WM_KILLFOCUS.
-    if AutoDrag and IsAnyHit and (FStates * [tsLeftButtonDown, tsRightButtonDown, tsMiddleButtonDown] <> []) then
+    if AutoDrag and IsAnyHit and (FStates * [tsLeftButtonDown] <> []) then
       BeginDrag(False);
   end;
 end;
@@ -20852,7 +20852,8 @@ begin
       Invalidate;
     end;
 
-    if tsClearPending in FStates then
+    // don't clear selection on right mouse click
+    if (tsClearPending in FStates) and (Message.Msg <> LM_RBUTTONUP) then
     begin
       ReselectFocusedNode := Assigned(FFocusedNode) and (vsSelected in FFocusedNode.States);
       ClearSelection;
