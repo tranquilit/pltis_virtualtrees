@@ -16,6 +16,11 @@
           <UseAnsiStrings Value="False"/>
         </SyntaxOptions>
       </Parsing>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
     </CompilerOptions>
     <Description Value="Virtual Treeview 
 for CodeTyphon Studio
