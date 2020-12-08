@@ -263,7 +263,7 @@ type
    Function QueryGetData(const pformatetc : FORMATETC):HRESULT; STDCALL;
    Function GetCanonicalFormatEtc(const pformatetcIn : FORMATETC;Out pformatetcOut : FORMATETC):HResult; STDCALl;
    {$IFDEF VER3_0}
-   function SetData(const FormatEtc: TFormatEtc; const Medium: TStgMedium; DoRelease: BOOL): HResult; virtual; stdcall;
+   function SetData(const FormatEtc: TFormatEtc; const Medium: TStgMedium; DoRelease: BOOL): HResult; stdcall;
    {$ELSE}
    Function SetData (Const FormatEtc : FORMATETC;var medium:STGMEDIUM;DoRelease : BOOL):HRESULT; StdCall;
    {$ENDIF}
