@@ -534,7 +534,7 @@ end;
 
 
 {$IFDEF VER3_0}
-function TVTDataObject.SetData(const FormatEtc: TFormatEtc; const Medium: TStgMedium; DoRelease: BOOL): HResult; virtual; stdcall;
+function TVTDataObject.SetData(const FormatEtc: TFormatEtc; const Medium: TStgMedium; DoRelease: BOOL): HResult; stdcall;
 {$ELSE}
 Function TVTDataObject.SetData (Const FormatEtc : FORMATETC;var medium:STGMEDIUM;DoRelease : BOOL):HRESULT; StdCall;
 {$ENDIF}
