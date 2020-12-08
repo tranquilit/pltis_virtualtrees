@@ -795,7 +795,6 @@ type
     function SetData(const FormatEtc: TFormatEtc; const Medium: TStgMedium; DoRelease: BOOL): HResult; virtual; stdcall;
     {$ELSE}
     Function SetData (Const FormatEtc : FORMATETC;var medium:STGMEDIUM;DoRelease : BOOL):HRESULT; StdCall;
-
     {$ENDIF}
   end;
 

@@ -262,7 +262,11 @@ type
    Function GetDataHere(CONST pformatetc : FormatETC; Out medium : STGMEDIUM):HRESULT; STDCALL;
    Function QueryGetData(const pformatetc : FORMATETC):HRESULT; STDCALL;
    Function GetCanonicalFormatEtc(const pformatetcIn : FORMATETC;Out pformatetcOut : FORMATETC):HResult; STDCALl;
-   Function SetData (Const pformatetc : FORMATETC;const medium:STGMEDIUM;FRelease : BOOL):HRESULT; StdCall;
+   {$IFDEF VER3_0}
+   function SetData(const FormatEtc: TFormatEtc; const Medium: TStgMedium; DoRelease: BOOL): HResult; virtual; stdcall;
+   {$ELSE}
+   Function SetData (Const FormatEtc : FORMATETC;var medium:STGMEDIUM;DoRelease : BOOL):HRESULT; StdCall;
+   {$ENDIF}
    Function EnumFormatEtc(dwDirection : DWord; OUT enumformatetcpara : IENUMFORMATETC):HRESULT; StdCall;
    Function DAdvise(const formatetc : FORMATETC;advf :DWORD; CONST AdvSink : IAdviseSink;OUT dwConnection:DWORD):HRESULT;StdCall;
    Function DUnadvise(dwconnection :DWord) :HRESULT;StdCall;
