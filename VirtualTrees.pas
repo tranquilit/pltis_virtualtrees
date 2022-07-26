@@ -1286,7 +1286,7 @@ type
     FDragStart: TPoint;                // initial mouse drag position
     FTrackStart: TPoint;               // client coordinates of the tracking start point
     FTrackPoint: TPoint;               // Client coordinate where the tracking started.
-    
+
     function CanSplitterResize(P: TPoint): Boolean;
     function CanWriteColumns: Boolean; virtual;
     procedure ChangeScale(M, D: Integer); virtual;
@@ -2066,7 +2066,7 @@ type
     FStartIndex: Cardinal;                       // index to start validating cache from
     FSelection: TNodeArray;                      // list of currently selected nodes
     FSelectionCount: Integer;                    // number of currently selected nodes (size of FSelection might differ)
-    FSelectionLocked: Boolean;                   // prevents the tree from changing the selection 
+    FSelectionLocked: Boolean;                   // prevents the tree from changing the selection
     FRangeAnchor: PVirtualNode;                  // anchor node for selection with the keyboard, determines start of a
                                                  // selection range
     FCheckNode: PVirtualNode;                    // node which "captures" a check event
@@ -2095,7 +2095,7 @@ type
     FPlusBM,
     FMinusBM,                                    // small bitmaps used for tree buttons
     FHotPlusBM,
-    FHotMinusBM: TBitmap;                        // small bitmaps used for hot tree buttons 
+    FHotMinusBM: TBitmap;                        // small bitmaps used for hot tree buttons
     FImages,                                     // normal images in the tree
     FStateImages,                                // state images in the tree
     FCustomCheckImages: TCustomImageList;        // application defined check images
@@ -2460,7 +2460,7 @@ type
     procedure SetVisible(Node: PVirtualNode; Value: Boolean); reintroduce;
     procedure SetVisiblePath(Node: PVirtualNode; Value: Boolean); reintroduce;
     procedure StaticBackground(Source: TBitmap; Target: TCanvas; const OffsetPosition: TPoint; const R: TRect);
-    procedure SetWindowTheme(const {%H-}Theme: String);    
+    procedure SetWindowTheme(const {%H-}Theme: String);
     procedure TileBackground(Source: TBitmap; Target: TCanvas; const Offset: TPoint; R: TRect);
     function ToggleCallback(Step, StepSize: Integer; Data: Pointer): Boolean;
   protected
@@ -2758,7 +2758,7 @@ type
       LineImage: TLineImage); virtual;
     procedure PaintSelectionRectangle(Target: TCanvas; WindowOrgX: Integer; const SelectionRect: TRect;
       TargetRect: TRect); virtual;
-    procedure PrepareCell(var PaintInfo: TVTPaintInfo; WindowOrgX, MaxWidth: Integer); virtual;    
+    procedure PrepareCell(var PaintInfo: TVTPaintInfo; WindowOrgX, MaxWidth: Integer); virtual;
     function ReadChunk(Stream: TStream; Version: Integer; Node: PVirtualNode; ChunkType,
       ChunkSize: Integer): Boolean; virtual;
     procedure ReadNode(Stream: TStream; Version: Integer; Node: PVirtualNode); virtual;
@@ -3323,7 +3323,7 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
     property Node  : PVirtualNode read FNode; // [IPK] Make FNode accessible
-    property Column: TColumnIndex read FColumn; // [IPK] Make Column(Index) accessible 
+    property Column: TColumnIndex read FColumn; // [IPK] Make Column(Index) accessible
 
     function BeginEdit: Boolean; virtual; stdcall;
     function CancelEdit: Boolean; virtual; stdcall;
@@ -3410,7 +3410,7 @@ type
     FOnShortenString: TVSTShortenStringEvent;      // used to allow the application a customized string shortage
     FOnMeasureTextWidth: TVTMeasureTextEvent;      // used to adjust the width of the cells
     FOnMeasureTextHeight: TVTMeasureTextEvent;
-    FOnDrawText: TVTDrawTextEvent;                 // used to custom draw the node text 
+    FOnDrawText: TVTDrawTextEvent;                 // used to custom draw the node text
 
     procedure AddContentToBuffer(Buffer: TBufferedUTF8String; Source: TVSTTextSourceType; const Separator: String);
     function GetImageText(Node: PVirtualNode; Kind: TVTImageKind;
@@ -5403,7 +5403,7 @@ begin
       begin
         Terminate;
         WorkEvent.SetEvent;
-       
+
         WorkerThread.Free;
       end;
       WorkerThread := nil;
@@ -6467,7 +6467,7 @@ begin
         SelectClipRgn(Canvas.Handle, VisibleRegion);
         // Since WM_PRINT cannot be given a position where to draw we simply move the window origin and
         // get the same effect.
-        GetWindowRect(Tree.Handle, ClipRect);     
+        GetWindowRect(Tree.Handle, ClipRect);
         {$ifdef UseSetCanvasOrigin}
         SetCanvasOrigin(Canvas, DragRect.Left - ClipRect.Left, DragRect.Top - ClipRect.Top);
         {$else}
@@ -8970,7 +8970,7 @@ var
   RTLOffset: Integer;
 
   procedure PaintFixedArea;
-  
+
   begin
     if VisibleFixedWidth > 0 then
       PaintHeader(FHeaderBitmap.Canvas,
@@ -8993,7 +8993,7 @@ begin
     RTLOffset := FHeader.Treeview.ComputeRTLOffset
   else
     RTLOffset := 0;
-    
+
   if RTLOffset = 0 then
     PaintFixedArea;
 
@@ -9005,7 +9005,7 @@ begin
   // In case of right-to-left directionality we paint the fixed part last.
   if RTLOffset <> 0 then
     PaintFixedArea;
-  
+
   // Blit the result to target.
   with TWithSafeRect(R) do
     BitBlt(DC, Left, Top, Right - Left, Bottom - Top, FHeaderBitmap.Canvas.Handle, Left, Top, SRCCOPY);
@@ -9098,7 +9098,7 @@ var
       begin
         PaintInfo.PaintRectangle := BackgroundRect;
         FHeader.Treeview.DoAdvancedHeaderDraw(PaintInfo, [hpeBackground]);
-      end  
+      end
       else
       begin
         if tsUseThemes in FHeader.Treeview.FStates then
@@ -9422,7 +9422,7 @@ begin
       PaintColumnHeader(Run, TargetRect);
 
       SelectClipRgn(Handle, 0);
-      
+
       TargetRect.Left := TargetRect.Right;
       Run := GetNextVisibleColumn(Run);
     end;
@@ -10817,7 +10817,7 @@ begin
             IsVSplitterHit := InHeaderSplitterArea(P)
           else
             IsVSplitterHit := InHeaderSplitterArea(P) and FHeader.CanSplitterResize(P);
-          
+
           if IsVSplitterHit or IsHSplitterHit then
           begin
             NewCursor := crDefault;
@@ -12098,7 +12098,7 @@ begin
 
   FOptions.Free;
   FreeAndNil(FHeader);
-  
+
   FreeMem(FRoot);
 
   FPlusBM.Free;
@@ -13867,7 +13867,7 @@ var
   {$ifdef ThemeSupport}
     //Theme: HTHEME;
   {$EndIf ThemeSupport}
- 
+
   //--------------- local function --------------------------------------------
 
   procedure FillBitmap (ABitmap: TBitmap);
@@ -21184,9 +21184,10 @@ var
 begin
   with PaintInfo, Canvas do
   begin
-    Brush.Color := FColors.BackGroundColor;
+    Brush.Color := FColors.GridLineColor;
     R := Rect(Min(Left, Right), Top, Max(Left, Right) + 1, Top + 1);
-    LCLIntf.FillRect(Handle, R, FDottedBrush);
+    //LCLIntf.FillRect(Handle, R, FDottedBrush);
+    FillRect(R);
   end;
 end;
 
@@ -21210,9 +21211,10 @@ begin
         Brush.Color := FColors.UnfocusedSelectionColor;
     end
     else
-    Brush.Color := FColors.BackGroundColor;
+      Brush.Color := FColors.GridLineColor;
     R := Rect(Left, Min(Top, Bottom), Left + 1, Max(Top, Bottom) + 1);
-    LCLIntf.FillRect(Handle, R, FDottedBrush);
+    //LCLIntf.FillRect(Handle, R, FDottedBrush);
+    FillRect(R);
   end;
 end;
 
@@ -23276,7 +23278,7 @@ var
   NewCursor: TCursor;
   HitInfo: THitInfo;
   P: TPoint;
-  Node: PVirtualNode;  
+  Node: PVirtualNode;
 
 begin
   // lcl: Adjust cursor
@@ -23304,7 +23306,7 @@ begin
       end;
       if (NewCursor = crDefault) and (toHotTrack in FOptions.PaintOptions) and Assigned(FCurrentHotNode) then
         NewCursor := FHotCursor;
- 
+
       DoGetCursor(NewCursor);
       Cursor := NewCursor;
     end;
@@ -25440,7 +25442,7 @@ begin
         Sort(Parent, FHeader.FSortColumn, FHeader.FSortDirection, True);
 
       InvalidateToBottom(Parent);
-      //lcl 
+      //lcl
       //Calling UpdateHorizontalScrollBar without a header leads to a
       //wrong NodeWidth because the node is not initialized at this time.
       //As result the horizontal scrollbar is not correctly
@@ -30088,7 +30090,7 @@ begin
                 begin
                   if Height <> PaintInfo.Node.NodeHeight then
                   begin
-                    // Avoid that the VCL copies the bitmap while changing its height.                    
+                    // Avoid that the VCL copies the bitmap while changing its height.
                     Height := PaintInfo.Node.NodeHeight;
                     {$ifdef UseSetCanvasOrigin}
                     SetCanvasOrigin(Canvas, Window.Left, 0);
@@ -30117,7 +30119,7 @@ begin
 
               CurrentNodeHeight := PaintInfo.Node.NodeHeight;
               R.Bottom := CurrentNodeHeight;
-              
+
               CalculateVerticalAlignments(ShowImages, ShowStateImages, PaintInfo.Node, VAlign, ButtonY);
 
               // Let application decide whether the node should normally be drawn or by the application itself.
@@ -30458,7 +30460,7 @@ begin
           {$ifdef DEBUG_VTV}Logger.Send([lcPaintDetails],'NodeBitmap.Handle after changing height to background',NodeBitmap.Handle);{$endif}
           {$ifdef DEBUG_VTV}Logger.Send([lcPaintDetails],'TargetRect',TargetRect);{$endif}
           {$ifdef DEBUG_VTV}Logger.Send([lcPaintDetails],'NodeBitmap Width: %d Height: %d',[NodeBitmap.Width,NodeBitmap.Height]);{$endif}
-          // Call back application/descendants whether they want to erase this area. 
+          // Call back application/descendants whether they want to erase this area.
           if not DoPaintBackground(PaintInfo.Canvas, TargetRect) then
           begin
             if UseBackground then
@@ -30612,7 +30614,7 @@ begin
         else
           NodeBitmap.Free;
       end;
-      
+
       if (ChildCount[nil] = 0) and (FEmptyListMessage <> '') then
       begin
         // output a message if no items are to display
@@ -30666,7 +30668,7 @@ begin
           Source.FinishCutOrCopy
         else
           DoStateChange([], [tsCutPending]);
-      end;    
+      end;
     end;
   end;
 end;
@@ -31557,7 +31559,7 @@ begin
         DoSort(FRoot);
       finally
         EndOperation(okSortTree);
-      end; 
+      end;
     end;
     InvalidateCache;
   finally
@@ -31671,7 +31673,7 @@ begin
           NeedUpdate := True;
 
           // Calculate the height delta right now as we need it for toChildrenAbove anyway.
-          HeightDelta := -Integer(Node.TotalHeight) + Integer(NodeHeight[Node]); 
+          HeightDelta := -Integer(Node.TotalHeight) + Integer(NodeHeight[Node]);
           if (FUpdateCount = 0) and (toAnimatedToggle in FOptions.FAnimationOptions) and not
              (tsCollapsing in FStates) then
           begin
@@ -35626,7 +35628,7 @@ begin
      begin
        FVertScrollBarSliderState := tsThumbBtnVertNormal;
        PaintScrollBars;
-     end  
+     end
      else
        if FHorzScrollBarUpButtonState = tsArrowBtnLeftHot then
        begin
@@ -35821,7 +35823,7 @@ begin
       end;
     CallDefaultProc(TMessage(Msg));
   end;
-  
+
   if not B and (FHorzScrollBarWindow.Visible) or (FVertScrollBarWindow.Visible) then
     PaintScrollBars;
   Handled := True;
