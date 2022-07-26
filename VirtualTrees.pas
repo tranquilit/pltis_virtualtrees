@@ -21184,10 +21184,17 @@ var
 begin
   with PaintInfo, Canvas do
   begin
+    {$IFDEF WINDOWS}
+    Brush.Color := FColors.BackGroundColor;
+    {$ELSE}
     Brush.Color := FColors.GridLineColor;
+    {$ENDIF}
     R := Rect(Min(Left, Right), Top, Max(Left, Right) + 1, Top + 1);
-    //LCLIntf.FillRect(Handle, R, FDottedBrush);
+    {$IFDEF WINDOWS}
+    LCLIntf.FillRect(Handle, R, FDottedBrush);
+    {$ELSE}
     FillRect(R);
+    {$ENDIF}
   end;
 end;
 
@@ -21211,10 +21218,18 @@ begin
         Brush.Color := FColors.UnfocusedSelectionColor;
     end
     else
+      {$IFDEF WINDOWS}
+      Brush.Color := FColors.BackGroundColor;
+      {$ELSE}
       Brush.Color := FColors.GridLineColor;
-    R := Rect(Left, Min(Top, Bottom), Left + 1, Max(Top, Bottom) + 1);
-    //LCLIntf.FillRect(Handle, R, FDottedBrush);
+      {$ENDIF}
+
+      R := Rect(Left, Min(Top, Bottom), Left + 1, Max(Top, Bottom) + 1);
+    {$IFDEF WINDOWS}
+    LCLIntf.FillRect(Handle, R, FDottedBrush);
+    {$ELSE}
     FillRect(R);
+    {$ENDIF}
   end;
 end;
 
