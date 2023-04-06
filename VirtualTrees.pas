@@ -982,6 +982,7 @@ type
     FImageRect: TRect;
     FHasImage: Boolean;
     FDefaultSortDirection: TSortDirection;
+    FImageAlignment: TAlignment;
     function GetCaptionAlignment: TAlignment;
     function GetLeft: Integer;
     function IsBiDiModeStored: Boolean;
@@ -994,6 +995,7 @@ type
     procedure SetCheckState(Value: TCheckState);
     procedure SetCheckType(Value: TCheckType);
     procedure SetColor(const Value: TColor);
+    procedure SetImageAlignment(aValue: TAlignment);
     procedure SetImageIndex(Value: TImageIndex);
     procedure SetLayout(Value: TVTHeaderColumnLayout);
     procedure SetMargin(Value: Integer);
@@ -1043,6 +1045,7 @@ type
     property Color: TColor read FColor write SetColor stored IsColorStored;
     property DefaultSortDirection: TSortDirection read FDefaultSortDirection write FDefaultSortDirection default sdAscending;
     property Hint: TTranslateString read FHint write FHint stored False;
+    property ImageAlignment: TAlignment read FImageAlignment write SetImageAlignment default taLeftJustify;
     property ImageIndex: TImageIndex read FImageIndex write SetImageIndex default -1;
     property Layout: TVTHeaderColumnLayout read FLayout write SetLayout default blGlyphLeft;
     property Margin: Integer read FMargin write SetMargin default 4;
@@ -6698,6 +6701,7 @@ constructor TVirtualTreeColumn.Create(Collection: TCollection);
 begin
   FMinWidth := 10;
   FMaxWidth := 10000;
+  FImageAlignment := taLeftJustify;
   FImageIndex := -1;
   FMargin := 4;
   FSpacing := 3;
@@ -6884,6 +6888,17 @@ begin
     Exclude(FOptions, coParentColor);
     Changed(False);
     Owner.Header.TreeView.Invalidate;
+  end;
+end;
+
+//----------------------------------------------------------------------------------------------------------------------
+
+procedure TVirtualTreeColumn.SetImageAlignment(aValue: TAlignment);
+begin
+  if aValue <> FImageAlignment then
+  begin
+    FImageAlignment := aValue;
+    Changed(False);
   end;
 end;
 
@@ -7580,6 +7595,7 @@ begin
     FOptions := [];
 
     BiDiMode := TVirtualTreeColumn(Source).BiDiMode;
+    ImageAlignment := TVirtualTreeColumn(Source).ImageAlignment;
     ImageIndex := TVirtualTreeColumn(Source).ImageIndex;
     Layout := TVirtualTreeColumn(Source).Layout;
     Margin := TVirtualTreeColumn(Source).Margin;
@@ -23784,6 +23800,21 @@ var
   PaintFocused: Boolean;
   DrawEffect: TGraphicsDrawEffect;
 
+  procedure PaintAlignedImage(aImages: TCustomImageList; aIndex: Integer; aDrawEffect: TGraphicsDrawEffect);
+  begin
+    with PaintInfo, ImageInfo[ImageInfoIndex] do
+      case FHeader.FColumns[Column].ImageAlignment of
+        taRightJustify:
+          aImages.Draw(Canvas, CellRect.Left +
+            ((CellRect.Width - aImages.Width)) - 2, YPos, aIndex, aDrawEffect);
+        taCenter:
+          aImages.Draw(Canvas, CellRect.Left +
+            ((CellRect.Width - aImages.Width) div 2), YPos, aIndex, aDrawEffect);
+      else // taLeftJustify as default
+        aImages.Draw(Canvas, XPos, YPos, aIndex, aDrawEffect);
+      end;
+  end;
+
 begin
   with PaintInfo do
   begin
@@ -23829,7 +23860,7 @@ begin
       if (vsSelected in Node.States) and not Ghosted then
         Images.BlendColor := clDefault;
 
-      Images.Draw(Canvas, XPos, YPos, Index, DrawEffect);
+      PaintAlignedImage(Images, Index, DrawEffect);
 
       // Now, draw the overlay.
       // Delphi version has the ability to use the built in overlay indices of windows system image lists
@@ -23837,7 +23868,7 @@ begin
 
       // Note: XPos and YPos are those of the normal images.
       if PaintInfo.ImageInfo[iiOverlay].Index >= 0 then
-        ImageInfo[iiOverlay].Images.Draw(Canvas, XPos, YPos, ImageInfo[iiOverlay].Index);
+        PaintAlignedImage(ImageInfo[iiOverlay].Images, ImageInfo[iiOverlay].Index, gdeNormal);
     end;
   end;
 end;
