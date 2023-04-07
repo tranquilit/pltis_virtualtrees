@@ -17695,11 +17695,38 @@ procedure TBaseVirtualTree.AdjustImageBorder(ImageWidth, ImageHeight: Integer; B
   var ImageInfo: TVTImageInfo);
 
 // Depending on the width of the image list as well as the given bidi mode R must be adjusted.
-
+var
+  vAlignment: TAlignment;
 begin
+  if ImageInfo.Column <> NoColumn then
+    vAlignment := FHeader.FColumns[ImageInfo.Column].ImageAlignment
+  else
+    vAlignment := taLeftJustify; // default
   // Adjusting image on cell, depending on its column alignment
-  if (ImageInfo.Column = NoColumn) or (FHeader.FColumns[ImageInfo.Column].ImageAlignment = taLeftJustify) then
-  begin
+  case vAlignment of
+    taCenter:
+      begin
+        if BidiMode = bdLeftToRight then
+          ImageInfo.XPos := R.Left
+        else
+        begin
+          ImageInfo.XPos := R.Right - Images.Width;
+          Dec(R.Right, Images.Width + 2);
+        end;
+        ImageInfo.YPos := R.Top + VAlign - Images.Height div 2;
+      end;
+    taRightJustify:
+      begin
+        if BidiMode = bdLeftToRight then
+        begin
+          ImageInfo.XPos := R.Right - Images.Width;
+          Dec(R.Right, Images.Width + 2);
+        end
+        else
+          ImageInfo.XPos := R.Left;
+        ImageInfo.YPos := R.Top + VAlign - Images.Height div 2;
+      end;
+  else
     if BidiMode = bdLeftToRight then
     begin
       ImageInfo.XPos := R.Left;
@@ -17711,17 +17738,6 @@ begin
       Dec(R.Right, ImageWidth + 2);
     end;
     ImageInfo.YPos := R.Top + VAlign - ImageHeight div 2;
-  end
-  else
-  begin
-    if BidiMode = bdLeftToRight then
-      ImageInfo.XPos := R.Left
-    else
-    begin
-      ImageInfo.XPos := R.Right - Images.Width;
-      Dec(R.Right, Images.Width + 2);
-    end;
-    ImageInfo.YPos := R.Top + VAlign - Images.Height div 2;
   end;
 end;
 
