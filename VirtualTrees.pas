@@ -23803,16 +23803,19 @@ var
   procedure PaintAlignedImage(aImages: TCustomImageList; aIndex: Integer; aDrawEffect: TGraphicsDrawEffect);
   begin
     with PaintInfo, ImageInfo[ImageInfoIndex] do
-      case FHeader.FColumns[Column].ImageAlignment of
-        taRightJustify:
-          aImages.Draw(Canvas, CellRect.Left +
-            ((CellRect.Width - aImages.Width)) - 2, YPos, aIndex, aDrawEffect);
-        taCenter:
-          aImages.Draw(Canvas, CellRect.Left +
-            ((CellRect.Width - aImages.Width) div 2), YPos, aIndex, aDrawEffect);
-      else // taLeftJustify as default
+      if Column >= 0 then
+        case FHeader.FColumns[Column].ImageAlignment of
+          taRightJustify:
+            aImages.Draw(Canvas, CellRect.Left +
+              ((CellRect.Width - aImages.Width)) - 2, YPos, aIndex, aDrawEffect);
+          taCenter:
+            aImages.Draw(Canvas, CellRect.Left +
+              ((CellRect.Width - aImages.Width) div 2), YPos, aIndex, aDrawEffect);
+        else // taLeftJustify as default
+          aImages.Draw(Canvas, XPos, YPos, aIndex, aDrawEffect);
+        end
+      else
         aImages.Draw(Canvas, XPos, YPos, aIndex, aDrawEffect);
-      end;
   end;
 
 begin
@@ -30272,7 +30275,7 @@ begin
                             if ImageInfo[iiNormal].Index > -1 then
                             begin
                               // Adjusting image on cell, depending on its alignment
-                              if FHeader.FColumns[Column].ImageAlignment = taLeftJustify then
+                              if (Column < 0) or (FHeader.FColumns[Column].ImageAlignment = taLeftJustify) then
                                 AdjustImageBorder(ImageInfo[iiNormal].Images, BidiMode, VAlign, ContentRect, ImageInfo[iiNormal])
                               else
                               begin
