@@ -1637,6 +1637,7 @@ type
     YPos: Integer;            // Vertical position in the current target canvas.
     Ghosted: Boolean;         // Flag to indicate that the image must be drawn slightly lighter.
     Images: TCustomImageList; // The image list to be used for painting.
+    Column: TColumnIndex;     // The column associated - the value could be NoColumn
   end;
 
   TVTImageInfoIndex = (
@@ -17696,17 +17697,32 @@ procedure TBaseVirtualTree.AdjustImageBorder(ImageWidth, ImageHeight: Integer; B
 // Depending on the width of the image list as well as the given bidi mode R must be adjusted.
 
 begin
-  if BidiMode = bdLeftToRight then
+  // Adjusting image on cell, depending on its column alignment
+  if (ImageInfo.Column = NoColumn) or (FHeader.FColumns[ImageInfo.Column].ImageAlignment = taLeftJustify) then
   begin
-    ImageInfo.XPos := R.Left;
-    Inc(R.Left, ImageWidth + 2);
+    if BidiMode = bdLeftToRight then
+    begin
+      ImageInfo.XPos := R.Left;
+      Inc(R.Left, ImageWidth + 2);
+    end
+    else
+    begin
+      ImageInfo.XPos := R.Right - Images.Width;
+      Dec(R.Right, ImageWidth + 2);
+    end;
+    ImageInfo.YPos := R.Top + VAlign - ImageHeight div 2;
   end
   else
   begin
-    ImageInfo.XPos := R.Right - Images.Width;
-    Dec(R.Right, ImageWidth + 2);
+    if BidiMode = bdLeftToRight then
+      ImageInfo.XPos := R.Left
+    else
+    begin
+      ImageInfo.XPos := R.Right - Images.Width;
+      Dec(R.Right, Images.Width + 2);
+    end;
+    ImageInfo.YPos := R.Top + VAlign - Images.Height div 2;
   end;
-  ImageInfo.YPos := R.Top + VAlign - ImageHeight div 2;
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -30255,6 +30271,7 @@ begin
                             ImageInfo[iiCheck].Index := GetCheckImage(Node);
                             if ImageInfo[iiCheck].Index > -1 then
                             begin
+                              ImageInfo[iiCheck].Column := Column;
                               AdjustImageBorder(FCheckImages, BidiMode, VAlign, ContentRect, ImageInfo[iiCheck]);
                               ImageInfo[iiCheck].Ghosted := False;
                             end;
@@ -30265,7 +30282,10 @@ begin
                           begin
                             GetImageIndex(PaintInfo, ikState, iiState, FStateImages);
                             if ImageInfo[iiState].Index > -1 then
+                            begin
+                              ImageInfo[iiState].Column := Column;
                               AdjustImageBorder(FStateImages.Width, FStateImages.Height, BidiMode, VAlign, ContentRect, ImageInfo[iiState]);
+                            end;
                           end
                           else
                             ImageInfo[iiState].Index := -1;
@@ -30274,20 +30294,8 @@ begin
                             GetImageIndex(PaintInfo, ImageKind[vsSelected in Node.States], iiNormal, FImages);
                             if ImageInfo[iiNormal].Index > -1 then
                             begin
-                              // Adjusting image on cell, depending on its alignment
-                              if (Column < 0) or (FHeader.FColumns[Column].ImageAlignment = taLeftJustify) then
-                                AdjustImageBorder(ImageInfo[iiNormal].Images, BidiMode, VAlign, ContentRect, ImageInfo[iiNormal])
-                              else
-                              begin
-                                if BidiMode = bdLeftToRight then
-                                  ImageInfo[iiNormal].XPos := ContentRect.Left
-                                else
-                                begin
-                                  ImageInfo[iiNormal].XPos := ContentRect.Right - Images.Width;
-                                  Dec(ContentRect.Right, Images.Width + 2);
-                                end;
-                                ImageInfo[iiNormal].YPos := R.Top + VAlign - Images.Height div 2;
-                              end
+                              ImageInfo[iiNormal].Column := Column;
+                              AdjustImageBorder(ImageInfo[iiNormal].Images, BidiMode, VAlign, ContentRect, ImageInfo[iiNormal])
                             end;
                           end
                           else
