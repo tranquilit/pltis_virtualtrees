@@ -30271,9 +30271,20 @@ begin
                             GetImageIndex(PaintInfo, ImageKind[vsSelected in Node.States], iiNormal, FImages);
                             if ImageInfo[iiNormal].Index > -1 then
                             begin
-                              // Get image width space from left border, only if image is left aligned
+                              // Adjusting image on cell, depending on its alignment
                               if FHeader.FColumns[Column].ImageAlignment = taLeftJustify then
-                                AdjustImageBorder(ImageInfo[iiNormal].Images, BidiMode, VAlign, ContentRect, ImageInfo[iiNormal]);
+                                AdjustImageBorder(ImageInfo[iiNormal].Images, BidiMode, VAlign, ContentRect, ImageInfo[iiNormal])
+                              else
+                              begin
+                                if BidiMode = bdLeftToRight then
+                                  ImageInfo[iiNormal].XPos := ContentRect.Left
+                                else
+                                begin
+                                  ImageInfo[iiNormal].XPos := ContentRect.Right - Images.Width;
+                                  Dec(ContentRect.Right, Images.Width + 2);
+                                end;
+                                ImageInfo[iiNormal].YPos := R.Top + VAlign - Images.Height div 2;
+                              end
                             end;
                           end
                           else
