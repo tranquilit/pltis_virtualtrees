@@ -30270,7 +30270,11 @@ begin
                           begin
                             GetImageIndex(PaintInfo, ImageKind[vsSelected in Node.States], iiNormal, FImages);
                             if ImageInfo[iiNormal].Index > -1 then
-                              AdjustImageBorder(ImageInfo[iiNormal].Images, BidiMode, VAlign, ContentRect, ImageInfo[iiNormal]);
+                            begin
+                              // Get image width space from left border, only if image is left aligned
+                              if FHeader.FColumns[Column].ImageAlignment = taLeftJustify then
+                                AdjustImageBorder(ImageInfo[iiNormal].Images, BidiMode, VAlign, ContentRect, ImageInfo[iiNormal]);
+                            end;
                           end
                           else
                             ImageInfo[iiNormal].Index := -1;
