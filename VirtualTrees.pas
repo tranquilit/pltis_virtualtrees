@@ -17694,7 +17694,8 @@ end;
 procedure TBaseVirtualTree.AdjustImageBorder(ImageWidth, ImageHeight: Integer; BidiMode: TBidiMode; VAlign: Integer; var R: TRect;
   var ImageInfo: TVTImageInfo);
 
-// Depending on the width of the image list as well as the given bidi mode R must be adjusted.
+// Depending on the width of the image and its alignment, as well as the given BiDi mode, R must be adjusted.
+
 var
   vAlignment: TAlignment;
 begin
@@ -17702,7 +17703,6 @@ begin
     vAlignment := FHeader.FColumns[ImageInfo.Column].ImageAlignment
   else
     vAlignment := taLeftJustify; // default
-  // Adjusting image on cell, depending on its column alignment
   case vAlignment of
     taCenter:
       begin
