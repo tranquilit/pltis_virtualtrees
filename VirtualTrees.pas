@@ -1638,7 +1638,6 @@ type
     YPos: Integer;            // Vertical position in the current target canvas.
     Ghosted: Boolean;         // Flag to indicate that the image must be drawn slightly lighter.
     Images: TCustomImageList; // The image list to be used for painting.
-    Column: TColumnIndex;     // The column associated - the value could be NoColumn
   end;
 
   TVTImageInfoIndex = (
@@ -2537,9 +2536,9 @@ type
     procedure AutoScale(); virtual;
     procedure AddToSelection(Node: PVirtualNode); overload; virtual;
     procedure AddToSelection(const NewItems: TNodeArray; NewLength: Integer; ForceInsert: Boolean = False); overload; virtual;
-    procedure AdjustImageBorder(Images: TCustomImageList; BidiMode: TBidiMode; VAlign: Integer; var R: TRect;
+    procedure AdjustImageBorder(ImageAlignment: TAlignment; Images: TCustomImageList; BidiMode: TBidiMode; VAlign: Integer; var R: TRect;
       var ImageInfo: TVTImageInfo); virtual; overload;
-    procedure AdjustImageBorder(ImageWidth, ImageHeight: Integer; BidiMode: TBidiMode; VAlign: Integer; var R: TRect;
+    procedure AdjustImageBorder(ImageAlignment: TAlignment; ImageWidth, ImageHeight: Integer; BidiMode: TBidiMode; VAlign: Integer; var R: TRect;
       var ImageInfo: TVTImageInfo); overload;
     procedure AdjustPaintCellRect(var PaintInfo: TVTPaintInfo; out NextNonEmpty: TColumnIndex); virtual;
     procedure AdjustPanningCursor(X, Y: Integer); virtual;
@@ -17691,60 +17690,57 @@ end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
-procedure TBaseVirtualTree.AdjustImageBorder(Images: TCustomImageList; BidiMode: TBidiMode; VAlign: Integer; var R: TRect;
-  var ImageInfo: TVTImageInfo);
+procedure TBaseVirtualTree.AdjustImageBorder(ImageAlignment: TAlignment; Images: TCustomImageList; BidiMode: TBidiMode;
+  VAlign: Integer; var R: TRect; var ImageInfo: TVTImageInfo);
 
 // Depending on the width of the image list as well as the given bidi mode R must be adjusted.
 
 begin
-  AdjustImageBorder(Images.Width, Images.Height, BidiMode, VAlign, R, ImageInfo);
+  AdjustImageBorder(ImageAlignment, Images.Width, Images.Height, BidiMode, VAlign, R, ImageInfo);
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
 
 
-procedure TBaseVirtualTree.AdjustImageBorder(ImageWidth, ImageHeight: Integer; BidiMode: TBidiMode; VAlign: Integer; var R: TRect;
-  var ImageInfo: TVTImageInfo);
+procedure TBaseVirtualTree.AdjustImageBorder(ImageAlignment: TAlignment; ImageWidth, ImageHeight: Integer; BidiMode: TBidiMode;
+  VAlign: Integer; var R: TRect; var ImageInfo: TVTImageInfo);
 
 // Depending on the width of the image and its alignment, as well as the given BiDi mode, R must be adjusted.
 
 begin
-  case FHeader.FColumns.GetImageAlignment(ImageInfo.Column) of
-    taCenter:
+  case ImageAlignment of
+    taLeftJustify:
       begin
         if BidiMode = bdLeftToRight then
-          ImageInfo.XPos := R.Left
+        begin
+          ImageInfo.XPos := R.Left;
+          Inc(R.Left, ImageWidth + 2);
+        end
         else
         begin
-          ImageInfo.XPos := R.Right - Images.Width;
-          Dec(R.Right, Images.Width + 2);
+          ImageInfo.XPos := R.Right - ImageWidth;
+          Dec(R.Right, ImageWidth + 2);
         end;
-        ImageInfo.YPos := R.Top + VAlign - Images.Height div 2;
+      end;
+    taCenter:
+      begin
+        ImageInfo.XPos := R.Left + ((R.Width - ImageWidth) div 2);
       end;
     taRightJustify:
       begin
         if BidiMode = bdLeftToRight then
         begin
-          ImageInfo.XPos := R.Right - Images.Width;
-          Dec(R.Right, Images.Width + 2);
+          ImageInfo.XPos := R.Right - ImageWidth - 2;
+          Dec(R.Right, ImageWidth + 2);
         end
         else
+        begin
           ImageInfo.XPos := R.Left;
-        ImageInfo.YPos := R.Top + VAlign - Images.Height div 2;
+          Inc(R.Left, ImageWidth + 2);
+        end;
       end;
-  else
-    if BidiMode = bdLeftToRight then
-    begin
-      ImageInfo.XPos := R.Left;
-      Inc(R.Left, ImageWidth + 2);
-    end
-    else
-    begin
-      ImageInfo.XPos := R.Right - Images.Width;
-      Dec(R.Right, ImageWidth + 2);
-    end;
-    ImageInfo.YPos := R.Top + VAlign - ImageHeight div 2;
   end;
+  ImageInfo.YPos := R.Top + VAlign - ImageHeight div 2;
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -23838,21 +23834,6 @@ var
   PaintFocused: Boolean;
   DrawEffect: TGraphicsDrawEffect;
 
-  procedure PaintAlignedImage(aImages: TCustomImageList; aIndex: Integer; aDrawEffect: TGraphicsDrawEffect);
-  begin
-    with PaintInfo, ImageInfo[ImageInfoIndex] do
-      case FHeader.FColumns.GetImageAlignment(Column) of
-        taRightJustify:
-          aImages.Draw(Canvas, CellRect.Left +
-            ((CellRect.Width - aImages.Width)) - 2, YPos, aIndex, aDrawEffect);
-        taCenter:
-          aImages.Draw(Canvas, CellRect.Left +
-            ((CellRect.Width - aImages.Width) div 2), YPos, aIndex, aDrawEffect);
-      else // taLeftJustify as default
-        aImages.Draw(Canvas, XPos, YPos, aIndex, aDrawEffect);
-      end;
-  end;
-
 begin
   with PaintInfo do
   begin
@@ -23898,7 +23879,7 @@ begin
       if (vsSelected in Node.States) and not Ghosted then
         Images.BlendColor := clDefault;
 
-      PaintAlignedImage(Images, Index, DrawEffect);
+      Images.Draw(Canvas, XPos, YPos, Index, DrawEffect);
 
       // Now, draw the overlay.
       // Delphi version has the ability to use the built in overlay indices of windows system image lists
@@ -23906,7 +23887,7 @@ begin
 
       // Note: XPos and YPos are those of the normal images.
       if PaintInfo.ImageInfo[iiOverlay].Index >= 0 then
-        PaintAlignedImage(ImageInfo[iiOverlay].Images, ImageInfo[iiOverlay].Index, gdeNormal);
+        ImageInfo[iiOverlay].Images.Draw(Canvas, XPos, YPos, ImageInfo[iiOverlay].Index);
     end;
   end;
 end;
@@ -30290,8 +30271,7 @@ begin
                             ImageInfo[iiCheck].Index := GetCheckImage(Node);
                             if ImageInfo[iiCheck].Index > -1 then
                             begin
-                              ImageInfo[iiCheck].Column := Column;
-                              AdjustImageBorder(FCheckImages, BidiMode, VAlign, ContentRect, ImageInfo[iiCheck]);
+                              AdjustImageBorder(FHeader.FColumns.GetImageAlignment(Column), FCheckImages, BidiMode, VAlign, ContentRect, ImageInfo[iiCheck]);
                               ImageInfo[iiCheck].Ghosted := False;
                             end;
                           end
@@ -30301,10 +30281,7 @@ begin
                           begin
                             GetImageIndex(PaintInfo, ikState, iiState, FStateImages);
                             if ImageInfo[iiState].Index > -1 then
-                            begin
-                              ImageInfo[iiState].Column := Column;
-                              AdjustImageBorder(FStateImages.Width, FStateImages.Height, BidiMode, VAlign, ContentRect, ImageInfo[iiState]);
-                            end;
+                              AdjustImageBorder(FHeader.FColumns.GetImageAlignment(Column), FStateImages.Width, FStateImages.Height, BidiMode, VAlign, ContentRect, ImageInfo[iiState]);
                           end
                           else
                             ImageInfo[iiState].Index := -1;
@@ -30312,10 +30289,7 @@ begin
                           begin
                             GetImageIndex(PaintInfo, ImageKind[vsSelected in Node.States], iiNormal, FImages);
                             if ImageInfo[iiNormal].Index > -1 then
-                            begin
-                              ImageInfo[iiNormal].Column := Column;
-                              AdjustImageBorder(ImageInfo[iiNormal].Images, BidiMode, VAlign, ContentRect, ImageInfo[iiNormal])
-                            end;
+                              AdjustImageBorder(FHeader.FColumns.GetImageAlignment(Column), ImageInfo[iiNormal].Images, BidiMode, VAlign, ContentRect, ImageInfo[iiNormal])
                           end
                           else
                             ImageInfo[iiNormal].Index := -1;
