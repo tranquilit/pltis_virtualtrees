@@ -1137,6 +1137,7 @@ type
     function GetScrollWidth: Integer;
     function GetVisibleColumns: TColumnsArray;
     function GetVisibleFixedWidth: Integer;
+    function GetImageAlignment(Column: TColumnIndex): TAlignment;
     function IsValidColumn(Column: TColumnIndex): Boolean;
     procedure LoadFromStream(const Stream: TStream; Version: Integer);
     procedure PaintHeader(DC: HDC; const R: TRect; HOffset: Integer); overload; virtual;
@@ -8934,6 +8935,17 @@ begin
     if Items[I].Options * [coVisible, coFixed] = [coVisible, coFixed] then
       Inc(Result, Items[I].Width);
   end;
+end;
+
+function TVirtualTreeColumns.GetImageAlignment(Column: TColumnIndex): TAlignment;
+
+// Returns the Image Alignment of the Column, if it is a valid one, otherwise, a default value.
+
+begin
+  if IsValidColumn(Column) then
+    Result := Items[Column].ImageAlignment
+  else
+    Result := taLeftJustify;
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -17696,14 +17708,8 @@ procedure TBaseVirtualTree.AdjustImageBorder(ImageWidth, ImageHeight: Integer; B
 
 // Depending on the width of the image and its alignment, as well as the given BiDi mode, R must be adjusted.
 
-var
-  vAlignment: TAlignment;
 begin
-  if ImageInfo.Column <> NoColumn then
-    vAlignment := FHeader.FColumns[ImageInfo.Column].ImageAlignment
-  else
-    vAlignment := taLeftJustify; // default
-  case vAlignment of
+  case FHeader.FColumns.GetImageAlignment(ImageInfo.Column) of
     taCenter:
       begin
         if BidiMode = bdLeftToRight then
@@ -23835,19 +23841,16 @@ var
   procedure PaintAlignedImage(aImages: TCustomImageList; aIndex: Integer; aDrawEffect: TGraphicsDrawEffect);
   begin
     with PaintInfo, ImageInfo[ImageInfoIndex] do
-      if Column >= 0 then
-        case FHeader.FColumns[Column].ImageAlignment of
-          taRightJustify:
-            aImages.Draw(Canvas, CellRect.Left +
-              ((CellRect.Width - aImages.Width)) - 2, YPos, aIndex, aDrawEffect);
-          taCenter:
-            aImages.Draw(Canvas, CellRect.Left +
-              ((CellRect.Width - aImages.Width) div 2), YPos, aIndex, aDrawEffect);
-        else // taLeftJustify as default
-          aImages.Draw(Canvas, XPos, YPos, aIndex, aDrawEffect);
-        end
-      else
+      case FHeader.FColumns.GetImageAlignment(Column) of
+        taRightJustify:
+          aImages.Draw(Canvas, CellRect.Left +
+            ((CellRect.Width - aImages.Width)) - 2, YPos, aIndex, aDrawEffect);
+        taCenter:
+          aImages.Draw(Canvas, CellRect.Left +
+            ((CellRect.Width - aImages.Width) div 2), YPos, aIndex, aDrawEffect);
+      else // taLeftJustify as default
         aImages.Draw(Canvas, XPos, YPos, aIndex, aDrawEffect);
+      end;
   end;
 
 begin
