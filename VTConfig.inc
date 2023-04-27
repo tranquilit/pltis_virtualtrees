@@ -42,7 +42,7 @@
 
 //under linux the performance is poor with threading enabled
 {$ifdef Windows}
-  {.$define EnableThreadSupport}
+  {$define EnableThreadSupport}
 {$endif}
 {$if defined(CPU64) or defined(LCLCarbon)}
   {$define PACKARRAYPASCAL}

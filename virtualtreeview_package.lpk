@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <Name Value="virtualtreeview_package"/>
     <Type Value="RunAndDesignTime"/>
     <Author Value="Mike Lischke (LCL Port: Luiz Américo)"/>
@@ -11,11 +11,11 @@
         <OtherUnitFiles Value="units/$(LCLWidgetType)"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)-$(LCLWidgetType)"/>
       </SearchPaths>
-      <Conditionals Value="if VirtualTreeView_Debug = 'True' then
+      <Conditionals Value="if VirtualTreeView_Debug = &apos;True&apos; then
 begin
-  CustomOptions := '-dDEBUG_VTV';
-  UnitPath += ';$PkgOutDir(multiloglaz)';
-  UsageUnitPath += ';$PkgOutDir(multiloglaz)';
+  CustomOptions := &apos;-dDEBUG_VTV&apos;;
+  UnitPath += &apos;;$PkgOutDir(multiloglaz)&apos;;
+  UsageUnitPath += &apos;;$PkgOutDir(multiloglaz)&apos;;
 end;"/>
       <BuildMacros>
         <Count Value="1"/>
@@ -35,11 +35,9 @@ end;"/>
           <UseAnsiStrings Value="False"/>
         </SyntaxOptions>
       </Parsing>
-      <Linking>
-        <Debugging>
-          <DebugInfoType Value="dsDwarf3"/>
-        </Debugging>
-      </Linking>
+      <Other>
+        <CustomOptions Value="$(IDEBuildOptions)"/>
+      </Other>
     </CompilerOptions>
     <Description Value="Virtual Treeview is an advanced TreeView component
 "/>
@@ -48,42 +46,46 @@ end;"/>
     <Version Major="5" Minor="5" Release="3" Build="1"/>
     <Files Count="8">
       <Item1>
-        <Filename Value="VirtualTrees.pas"/>
+        <Filename Value="virtualtrees.pas"/>
         <UnitName Value="VirtualTrees"/>
+        <CustomOptions Items="FPMake" Version="2">
+          <_FPMake Items="AllCPUs/AllOSes/TargetCPUs/TargetOSes"/>
+        </CustomOptions>
       </Item1>
       <Item2>
-        <Filename Value="VTHeaderPopup.pas"/>
+        <Filename Value="vtheaderpopup.pas"/>
         <UnitName Value="VTHeaderPopup"/>
       </Item2>
       <Item3>
         <Filename Value="registervirtualtreeview.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="registervirtualtreeview"/>
+        <UnitName Value="RegisterVirtualTreeView"/>
       </Item3>
       <Item4>
-        <Filename Value="ideicons.lrs"/>
-        <Type Value="LRS"/>
+        <Filename Value="vtgraphics.pas"/>
+        <UnitName Value="VTGraphics"/>
       </Item4>
       <Item5>
-        <Filename Value="VTConfig.inc"/>
-        <Type Value="Include"/>
+        <Filename Value="virtualtrees.res"/>
+        <Type Value="Binary"/>
       </Item5>
       <Item6>
-        <Filename Value="VTGraphics.pas"/>
-        <UnitName Value="VTGraphics"/>
+        <Filename Value="vtideeditors.pas"/>
+        <UnitName Value="VTIDEEditors"/>
       </Item6>
       <Item7>
-        <Filename Value="VirtualTrees.res"/>
+        <Filename Value="ideicons.res"/>
         <Type Value="Binary"/>
       </Item7>
       <Item8>
-        <Filename Value="VTIDEEditors.pas"/>
-        <UnitName Value="VTIDEEditors"/>
+        <Filename Value="vtconfig.inc"/>
+        <Type Value="Include"/>
       </Item8>
     </Files>
     <i18n>
       <EnableI18N Value="True"/>
       <OutDir Value="languages"/>
+      <EnableI18NForLFM Value="True"/>
     </i18n>
     <RequiredPkgs Count="3">
       <Item1>

@@ -1,4 +1,4 @@
-unit fakemmsystem;
+unit FakeMMSystem;
 
 {$mode objfpc}{$H+}
 

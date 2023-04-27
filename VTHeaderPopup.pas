@@ -109,6 +109,7 @@ type
     property OnAddHeaderPopupItem: TAddHeaderPopupItemEvent read FOnAddHeaderPopupItem write FOnAddHeaderPopupItem;
     property OnColumnChange: TColumnChangeEvent read FOnColumnChange write FOnColumnChange;
   end;
+  TLazVTHeaderPopupMenu = class(TVTHeaderPopupMenu);
 
 //----------------------------------------------------------------------------------------------------------------------
 

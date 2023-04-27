@@ -1,13 +1,16 @@
-unit registervirtualtreeview; 
+unit RegisterVirtualTreeView; 
 
 {$Mode ObjFpc}
 {$H+}
 
 interface
-  
+
 procedure Register;
 
 implementation
+
+{$R ideicons.res}
+
 
 uses
   Classes, SysUtils, LResources, LazarusPackageIntf,
@@ -32,7 +35,4 @@ begin
   RegisterUnit('VTHeaderPopup', @RegisterUnitVTHeaderPopup);
 end;
 
-initialization
-{$i ideicons.lrs}
- 
 end.

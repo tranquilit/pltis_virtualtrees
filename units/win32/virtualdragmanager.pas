@@ -1,4 +1,4 @@
-unit virtualdragmanager;
+unit VirtualDragManager;
 
 {$mode delphi}
 

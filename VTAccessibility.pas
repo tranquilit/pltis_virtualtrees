@@ -1,4 +1,4 @@
-unit VTAccessibility;
+unit laz.TAccessibility;
 
 // This unit implements iAccessible interfaces for the VirtualTree visual components
 // and the currently focused node.
@@ -7,7 +7,9 @@ unit VTAccessibility;
 
 interface
 
-uses Windows, Classes, ActiveX, oleacc, VirtualTrees, VTAccessibilityFactory, Controls;
+uses 
+  Windows, Classes, ActiveX, oleacc, 
+  VirtualTrees, VTAccessibilityFactory, Controls;
 
 type
   TVirtualTreeAccessibility = class(TInterfacedObject, IDispatch, IAccessible)

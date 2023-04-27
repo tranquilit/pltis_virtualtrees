@@ -1,0 +1,48 @@
+The following images (including equally named
+files with appendix _150 and _200) were created by Roland Hahn.
+
+- vt_check_dark.png
+- vt_check_dark_150.png
+- vt_check_dark_200.png
+- vt_check_light.png
+- vt_check_light_150.png
+- vt_check_light_200.png
+- vt_flat.png
+- vt_flat_150.png
+- vt_flat_200.png
+- vt_moveall_bmp.png
+- vt_moveall_bmp_150.png
+- vt_moveall_bmp_200.png
+- vt_moveew_bmp.png
+- vt_moveew_bmp_150.png
+- vt_moveew_bmp_200.png
+- vt_movens_bmp.png
+- vt_movens_bmp_150.png
+- vt_movens_bmp_200.png
+- vt_tick_dark.png
+- vt_tick_dark_150.png
+- vt_tick_dark_200.png
+- vt_tick_light.png
+- vt_tick_light_150.png
+- vt_tick_light_200.png
+- vt_utilities.png
+- vt_utilities_150.png
+- vt_utilities_200.png
+- vt_xp.png
+- vt_xpbuttonminus.png
+- vt_xpbuttonminus_150.png
+- vt_xpbuttonminus_200.png
+- vt_xpbuttonplus.png
+- vt_xpbuttonplus_150.png
+- vt_xpbuttonplus_200.png
+- vt_xp_150.png
+- vt_xp_200.png
+
+- components/tvirtualdrawtree.png
+- components/tvirtualstringtree.png
+- components/tvtheaderpopupmenu.png
+
+These images can be used freely without any restrictions.
+
+svg sources can be found on Lazarus Components and Code Repository, 
+folder image_sources.

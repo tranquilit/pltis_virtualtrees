@@ -1,4 +1,4 @@
-unit virtualdragmanager;
+unit VirtualDragManager;
 {fake unit just to compile - not used under non windows}
 
 {$mode delphi}
@@ -490,7 +490,7 @@ type
 implementation
 
 uses
-  VirtualTrees, Controls {$ifdef DEBUG_VTV}, vtlogger{$endif};
+  VirtualTrees, Controls {$ifdef DEBUG_VTV}, VTLogger{$endif};
   
 type
   TVirtualTreeAccess = class (TBaseVirtualTree)

@@ -21,6 +21,8 @@ type
     function GetVerb(Index: Integer): string; override;
     procedure ExecuteVerb(Index: Integer); override;
   end;
+  TLazVirtualTreeEditor = class(TVirtualTreeEditor);
+
 
 implementation
 

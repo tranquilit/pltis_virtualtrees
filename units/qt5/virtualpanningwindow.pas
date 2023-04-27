@@ -1,4 +1,4 @@
-unit virtualpanningwindow;
+unit VirtualPanningWindow;
 
 {$mode objfpc}{$H+}
 
@@ -29,7 +29,7 @@ implementation
 
 {$ifdef DEBUG_VTV}
 uses
-  opkman_vtlogger;
+  VTLogger;
 {$endif}
 
 { TVirtualPanningWindow }
