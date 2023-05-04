@@ -46,31 +46,31 @@ end;"/>
     <Version Major="5" Minor="5" Release="3" Build="1"/>
     <Files Count="8">
       <Item1>
-        <Filename Value="virtualtrees.pas"/>
+        <Filename Value="VirtualTrees.pas"/>
         <UnitName Value="VirtualTrees"/>
         <CustomOptions Items="FPMake" Version="2">
           <_FPMake Items="AllCPUs/AllOSes/TargetCPUs/TargetOSes"/>
         </CustomOptions>
       </Item1>
       <Item2>
-        <Filename Value="vtheaderpopup.pas"/>
+        <Filename Value="VTHeaderPopup.pas"/>
         <UnitName Value="VTHeaderPopup"/>
       </Item2>
       <Item3>
-        <Filename Value="registervirtualtreeview.pas"/>
+        <Filename Value="RegisterVirtualTreeView.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="RegisterVirtualTreeView"/>
       </Item3>
       <Item4>
-        <Filename Value="vtgraphics.pas"/>
+        <Filename Value="VTGraphics.pas"/>
         <UnitName Value="VTGraphics"/>
       </Item4>
       <Item5>
-        <Filename Value="virtualtrees.res"/>
+        <Filename Value="VirtualTrees.res"/>
         <Type Value="Binary"/>
       </Item5>
       <Item6>
-        <Filename Value="vtideeditors.pas"/>
+        <Filename Value="VTIDEEditors.pas"/>
         <UnitName Value="VTIDEEditors"/>
       </Item6>
       <Item7>
