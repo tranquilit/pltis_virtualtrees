@@ -78,7 +78,7 @@ end;"/>
         <Type Value="Binary"/>
       </Item7>
       <Item8>
-        <Filename Value="vtconfig.inc"/>
+        <Filename Value="VTConfig.inc"/>
         <Type Value="Include"/>
       </Item8>
     </Files>
