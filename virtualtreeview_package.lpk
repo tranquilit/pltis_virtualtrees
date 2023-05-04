@@ -46,7 +46,7 @@ end;"/>
     <Version Major="5" Minor="5" Release="3" Build="1"/>
     <Files Count="8">
       <Item1>
-        <Filename Value="VirtualTrees.pas"/>
+        <Filename Value="virtualtrees.pas"/>
         <UnitName Value="VirtualTrees"/>
         <CustomOptions Items="FPMake" Version="2">
           <_FPMake Items="AllCPUs/AllOSes/TargetCPUs/TargetOSes"/>
@@ -78,7 +78,7 @@ end;"/>
         <Type Value="Binary"/>
       </Item7>
       <Item8>
-        <Filename Value="VTConfig.inc"/>
+        <Filename Value="vtconfig.inc"/>
         <Type Value="Include"/>
       </Item8>
     </Files>
