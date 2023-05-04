@@ -4149,7 +4149,7 @@ procedure ShowError(const Msg: String; HelpContext: Integer);  // [IPK] Surface 
 
 implementation
 
-{$R virtualtrees.res}
+{$R VirtualTrees.res}
 
 uses
   StrUtils, Math,
