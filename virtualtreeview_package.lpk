@@ -53,24 +53,24 @@ end;"/>
         </CustomOptions>
       </Item1>
       <Item2>
-        <Filename Value="VTHeaderPopup.pas"/>
+        <Filename Value="vtheaderpopup.pas"/>
         <UnitName Value="VTHeaderPopup"/>
       </Item2>
       <Item3>
-        <Filename Value="RegisterVirtualTreeView.pas"/>
+        <Filename Value="registervirtualtreeview.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="RegisterVirtualTreeView"/>
       </Item3>
       <Item4>
-        <Filename Value="VTGraphics.pas"/>
+        <Filename Value="vtgraphics.pas"/>
         <UnitName Value="VTGraphics"/>
       </Item4>
       <Item5>
-        <Filename Value="VirtualTrees.res"/>
+        <Filename Value="virtualtrees.res"/>
         <Type Value="Binary"/>
       </Item5>
       <Item6>
-        <Filename Value="VTIDEEditors.pas"/>
+        <Filename Value="vtideeditors.pas"/>
         <UnitName Value="VTIDEEditors"/>
       </Item6>
       <Item7>
