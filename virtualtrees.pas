@@ -5525,7 +5525,10 @@ begin
   UtilityImages := CreateBitmapFromResourceName(TheInstance, BuildResourceName('vt_utilities'));
   UtilityImageSize := UtilityImages.Height;
 
-  SystemCheckImages := CreateCheckImageList(ckSystemDefault);
+  if not IsLibrary then
+    SystemCheckImages := CreateCheckImageList(ckSystemDefault)
+  else
+    SystemCheckImages := nil;
 
   // Delphi (at least version 6 and lower) does not provide a standard split cursor.
   // Hence we have to load our own.
