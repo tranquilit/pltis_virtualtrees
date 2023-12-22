@@ -21784,12 +21784,12 @@ var
 begin
   with PaintInfo, Canvas do
   begin
-    Brush.Color := FColors.BackGroundColor;
+    Brush.Color := FColors.GridLineColor;
     R := Rect(Min(Left, Right), Top, Max(Left, Right) + 1, Top + 1);
-    LCLIntf.FillRect(Handle, R, FDottedBrush);
+    //LCLIntf.FillRect(Handle, R, FDottedBrush);
+    FillRect(R);
   end;
 end;
-
 //----------------------------------------------------------------------------------------------------------------------
 
 procedure TBaseVirtualTree.DrawDottedVLine(const PaintInfo: TVTPaintInfo; Top, Bottom, Left: Integer; UseSelectedBkColor: Boolean = False);
@@ -21810,11 +21810,13 @@ begin
         Brush.Color := FColors.UnfocusedSelectionColor;
     end
     else
-    Brush.Color := FColors.BackGroundColor;
+      Brush.Color := FColors.GridLineColor;
     R := Rect(Left, Min(Top, Bottom), Left + 1, Max(Top, Bottom) + 1);
-    LCLIntf.FillRect(Handle, R, FDottedBrush);
+    //LCLIntf.FillRect(Handle, R, FDottedBrush);
+    FillRect(R);
   end;
 end;
+
 
 //----------------------------------------------------------------------------------------------------------------------
 
