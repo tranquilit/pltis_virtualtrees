@@ -21367,16 +21367,11 @@ procedure TBaseVirtualTree.DragAndDrop(AllowedEffects: LongWord;
   DataObject: IDataObject; var DragEffect: LongWord);
 
 begin
+
   {$ifdef Windows}
-  //lcl
-  //todo
-  {
-  if IsWinVistaOrAbove then begin
-    SHDoDragDrop(Self.Handle, DataObject, nil, AllowedEffects, DragEffect); // supports drag hints on Windows Vista and later
-  end
-  else
-  }
     ActiveX.DoDragDrop(DataObject, vtvdragmanager as IDropSource, AllowedEffects, @DragEffect);
+  {$else}
+    FakeActiveX.DoDragDrop(DataObject, vtvdragmanager as IDropSource, AllowedEffects, @DragEffect);
   {$endif}
 end;
 
